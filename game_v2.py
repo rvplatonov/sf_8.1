@@ -6,7 +6,7 @@ import numpy as np
 
 
 def random_predict(number: int = 1) -> int:
-    """Рандомно угадываем число
+    """Угадываем число, используя бинарный поиск (деление пополам).
 
     Args:
         number (int, optional): Загаданное число. Defaults to 1.
@@ -15,12 +15,21 @@ def random_predict(number: int = 1) -> int:
         int: Число попыток
     """
     count = 0
+    min_num = 1
+    max_num = 101  # Верхняя граница (не включая её)
 
     while True:
         count += 1
-        predict_number = np.random.randint(1, 101)  # предполагаемое число
-        if number == predict_number:
-            break  # выход из цикла если угадали
+        # Находим середину текущего диапазона
+        predict_number = (min_num + max_num) // 2
+        
+        if predict_number == number:
+            break  # Число угадано, выходим из цикла
+        elif predict_number > number:
+            max_num = predict_number  # Сужаем верхнюю границу
+        else:
+            min_num = predict_number + 1  # Сужаем нижнюю границу
+            
     return count
 
 
